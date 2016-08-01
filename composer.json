@@ -3,8 +3,8 @@
 	"type" : "library",
 	"description" : "Common filters, functions and test to enhance Twig",
 	"keywords" : [
-		"Doctrine",
-		"Commons"
+		"Commons",
+		"Twig"
 	],
 	"homepage" : "http://www.stinger-soft.net",
 	"authors" : [{
