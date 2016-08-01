@@ -1,0 +1,44 @@
+{
+	"name" : "stinger-soft/twig-extensions",
+	"type" : "library",
+	"description" : "Common filters, functions and test to enhance Twig",
+	"keywords" : [
+		"Doctrine",
+		"Commons"
+	],
+	"homepage" : "http://www.stinger-soft.net",
+	"authors" : [{
+			"name" : "Florian Meyer",
+			"email" : "florian.meyer@stinger-soft.net",
+			"role" : "Developer"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"StingerSoft\\TwigExtensions\\" : "src/StingerSoft/TwigExtensions"
+		},
+		"exclude-from-classmap" : [
+			"/tests/"
+		]
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"StingerSoft\\TwigExtensions\\" : "tests/StingerSoft/TwigExtensions"
+		}
+	},
+	"license" : "Apache-2.0",
+	"require" : {
+		"php" : ">=5.5",
+		"twig/twig" : "^2.8|^3.0"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "~4.1|~5.0",
+		"satooshi/php-coveralls" : "~0.7.1"
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "0.1.x-dev",
+			"dev-develop" : "1.0.x-dev"
+		}
+	}
+}
