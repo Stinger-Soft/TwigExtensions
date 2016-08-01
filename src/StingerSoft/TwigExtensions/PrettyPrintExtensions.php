@@ -91,30 +91,37 @@ class PrettyPrintExtensions extends \Twig_Extension {
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.seconds', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_MINUTES:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.minutes', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_HOURS:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.hours', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_DAYS:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.days', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_WEEKS:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.weeks', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_MONTHS:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.months', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 			case TimeFormatter::UNIT_YEARS:
 				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.years', $diff[0], array(
 					'%count%' => $diff[0] 
 				), 'StingerSoftTwigExtensions');
+				break;
 		}
 		return $this->translator->trans('stinger_soft.twig_extensions.pretty_print.time.diff', array(
 			'%time%' => $since 
