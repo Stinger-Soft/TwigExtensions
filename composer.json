@@ -29,6 +29,8 @@
 	"license" : "Apache-2.0",
 	"require" : {
 		"php" : ">=5.5",
+		"stinger-soft/php-commons" : "^0.1@dev",
+		"symfony/translation" : "^2",
 		"twig/twig" : "^1.22"
 	},
 	"require-dev" : {
