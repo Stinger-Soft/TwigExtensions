@@ -40,16 +40,35 @@ class DoctrineExtensions extends \Twig_Extension {
 	}
 
 	/**
+	 * Get the name / class of the icon to be displayed for the entity for a
+	 * certain purpose.
+	 *
 	 * @param string|object $entity
+	 *        	the entity or class of entity to get an icon for
 	 * @param string|null $purpose
-	 * @return string|null
+	 *        	a purpose to get the entity for (if any) or <code>null</code> (default)
+	 * @return string|null the icon name / class or <code>null</code>.
 	 * @see \StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface::getEntityIcon
 	 */
 	public function entityIconFilter($entity, $purpose = null) {
-		if($this->doctrineFunctions != null && method_exists($this->doctrineFunctions, 'getEntityIcon')) {
+		if($this->hasDoctrineFunctions() && method_exists($this->doctrineFunctions, 'getEntityIcon')) {
 			return $this->doctrineFunctions->getEntityIcon($entity, $purpose);
 		}
 		return null;
+	}
+
+	/**
+	 * Checks whether the doctrine functions are available and triggers a warning if not.
+	 *
+	 * @return boolean <code>true</code> in case the doctrine functions are available, <code>false</code> otherwise.
+	 */
+	protected function hasDoctrineFunctions() {
+		if($this->doctrineFunctions != null) {
+			return true;
+		} else {
+			@trigger_error('Please install the stinger-soft/doctrine-commons dependency in order to use the doctrine twig extensions!', E_USER_WARNING);
+			return false;
+		}
 	}
 
 	/**
