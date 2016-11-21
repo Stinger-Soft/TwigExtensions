@@ -35,6 +35,10 @@ class DoctrineExtensions extends \Twig_Extension {
 			new \Twig_SimpleFilter('entityIcon', array(
 				$this,
 				'entityIconFilter' 
+			)),
+			new \Twig_SimpleFilter('unproxify', array(
+				$this,
+				'unproxifyFilter' 
 			)) 
 		);
 	}
@@ -55,6 +59,19 @@ class DoctrineExtensions extends \Twig_Extension {
 			return $this->doctrineFunctions->getEntityIcon($entity, $purpose);
 		}
 		return null;
+	}
+
+	/**
+	 * Transforms the given doctrine proxy object into a 'real' entity
+	 *
+	 * @param object $object        	
+	 * @return object|NULL
+	 */
+	public function unproxifyFilter($object) {
+		if($this->hasDoctrineFunctions() && method_exists($this->doctrineFunctions, 'unproxifyFilter')) {
+			return $this->doctrineFunctions->unproxifyFilter($object);
+		}
+		return $object;
 	}
 
 	/**
