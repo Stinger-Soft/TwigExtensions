@@ -17,7 +17,7 @@ class DoctrineExtensionsTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGetFilters() {
 		$extension = new DoctrineExtensions();
-		$this->assertCount(1, $extension->getFilters());
+		$this->assertCount(2, $extension->getFilters());
 		$this->assertContainsOnlyInstancesOf('Twig_SimpleFilter', $extension->getFilters());
 	}
 
