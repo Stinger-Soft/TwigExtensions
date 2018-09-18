@@ -11,9 +11,10 @@
  */
 namespace StingerSoft\TwigExtensions;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Translation\TranslatorInterface;
 
-class PrettyPrintExtensionsTest extends \PHPUnit_Framework_TestCase {
+class PrettyPrintExtensionsTest extends TestCase {
 
 	protected function mockTranslator() {
 		$translator = $this->getMockBuilder(TranslatorInterface::class)->disableOriginalConstructor()->setMethods(array(

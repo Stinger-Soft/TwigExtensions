@@ -11,9 +11,10 @@
  */
 namespace StingerSoft\TwigExtensions;
 
+use PHPUnit\Framework\TestCase;
 use StingerSoft\DoctrineCommons\Utils\DoctrineFunctions;
 
-class DoctrineExtensionsTest extends \PHPUnit_Framework_TestCase {
+class DoctrineExtensionsTest extends TestCase {
 
 	public function testGetFilters() {
 		$extension = new DoctrineExtensions();

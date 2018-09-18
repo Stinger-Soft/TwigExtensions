@@ -11,7 +11,9 @@
  */
 namespace StingerSoft\TwigExtensions;
 
-class StaticExtensionsTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class StaticExtensionsTest extends TestCase {
 
 	public static $hammerfall = true;
 

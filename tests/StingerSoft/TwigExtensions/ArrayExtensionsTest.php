@@ -11,7 +11,9 @@
  */
 namespace StingerSoft\TwigExtensions;
 
-class ArrayExtensionsTest extends \PHPUnit_Framework_TestCase {
+use PHPUnit\Framework\TestCase;
+
+class ArrayExtensionsTest extends TestCase {
 
 	public function testGetFunctions() {
 		$extension = new ArrayExtensions();

@@ -28,15 +28,15 @@
 	},
 	"license" : "Apache-2.0",
 	"require" : {
-		"php" : ">=5.5",
-		"stinger-soft/php-commons" : "0.1@dev|~1.0",
-		"symfony/translation" : "^2.8|^3.0",
-		"twig/twig" : "^1.22|^2.0"
+		"php" : ">=7.2",
+		"stinger-soft/php-commons" : "~1.0",
+		"symfony/translation" : "^3.0|^4.0",
+		"twig/twig" : "^2.0"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : "~4.1|~5.0",
-		"satooshi/php-coveralls" : "~0.7.1",
-		"stinger-soft/doctrine-commons" : "~0.1@dev"
+		"phpunit/phpunit" : "~7.3.5",
+		"php-coveralls/php-coveralls" : "~2.1.0",
+		"stinger-soft/doctrine-commons" : "~1.0@dev"
 	},
 	"suggest": {
 		"stinger-soft/doctrine-commons": "In order to use the doctrine twig extensions"
