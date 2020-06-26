@@ -75,7 +75,7 @@ class StringExtensions extends \Twig_Extension {
 	 *        	Each character after this string will be uppercased
 	 * @return string @codeCoverageIgnore
 	 */
-	public function camlizeFilter($text, $separator = '_', $capitalizeFirstCharacter = false) {
+	public function camelizeFilter($text, $separator = '_', $capitalizeFirstCharacter = false) {
 		return Utils::camelize($text, $separator, $capitalizeFirstCharacter);
 	}
 
