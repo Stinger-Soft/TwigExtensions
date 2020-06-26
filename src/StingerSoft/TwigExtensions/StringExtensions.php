@@ -9,60 +9,51 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
 
 use StingerSoft\PhpCommons\String\Utils;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Twig extensions to format strings
  */
-class StringExtensions extends \Twig_Extension {
+class StringExtensions extends AbstractExtension {
 
 	/**
-	 *
 	 * {@inheritdoc}
-	 *
-	 * @see Twig_Extension::getFilters()
 	 */
 	public function getFilters() {
-		return array(
-			new \Twig_SimpleFilter('repeat', array(
-				$this,
-				'repeatFilter' 
-			)),
-			new \Twig_SimpleFilter('ucfirst', array(
-				$this,
-				'ucFirstFilter' 
-			)),
-			new \Twig_SimpleFilter('camelize', array(
-				$this,
-				'camelizeFilter' 
-			)),
-			new \Twig_SimpleFilter('highlight', array(
-				$this,
-				'highlightFilter' 
-			)) 
-		);
+		return [
+			new TwigFilter('repeat', [$this, 'repeatFilter']),
+			new TwigFilter('ucfirst', [$this, 'ucFirstFilter']),
+			new TwigFilter('camelize', [$this, 'camelizeFilter']),
+			new TwigFilter('highlight', [$this, 'highlightFilter']),
+			new TwigFilter('initials', [$this, 'initialsFilter']),
+		];
 	}
 
 	/**
 	 * Repeats the text count times
 	 *
-	 * @param string $text        	
-	 * @param int $count
-	 *        	@codeCoverageIgnore
+	 * @param string $text
+	 * @param int    $count
+	 * @codeCoverageIgnore
+	 * @return string
 	 */
-	public function repeatFilter($text, $count) {
+	public function repeatFilter($text, $count): string {
 		return str_repeat($text, $count);
 	}
 
 	/**
-	 * Capitilize the first character of the text
+	 * Capitalize the first character of the text
 	 *
 	 * @param string $text
-	 *        	@codeCoverageIgnore
+	 * @codeCoverageIgnore
+	 * @return string
 	 */
-	public function ucFirstFilter($text) {
+	public function ucFirstFilter($text): string {
 		return ucfirst($text);
 	}
 
@@ -70,12 +61,15 @@ class StringExtensions extends \Twig_Extension {
 	 * Uppercase the first character of each word in a string
 	 *
 	 * @param string $text
-	 *        	The string to be camelized
+	 *                                        The string to be camelized
 	 * @param string $separator
-	 *        	Each character after this string will be uppercased
-	 * @return string @codeCoverageIgnore
+	 *                                        Each character after this string will be uppercased
+	 * @param bool   $capitalizeFirstCharacter
+	 *                                        Whether to also capitalize the first character, default false
+	 * @return string
+	 * @codeCoverageIgnore
 	 */
-	public function camelizeFilter($text, $separator = '_', $capitalizeFirstCharacter = false) {
+	public function camelizeFilter($text, $separator = '_', $capitalizeFirstCharacter = false): string {
 		return Utils::camelize($text, $separator, $capitalizeFirstCharacter);
 	}
 
@@ -83,26 +77,39 @@ class StringExtensions extends \Twig_Extension {
 	 * Highlights a given keyword in a string
 	 *
 	 * @param string $text
-	 *        	The string to search in
+	 *            The string to search in
 	 * @param string $keyword
-	 *        	The keyword to be highlighted
+	 *            The keyword to be highlighted
 	 * @param string $preHighlight
-	 *        	This string will be attached before every match
-	 * @param string $postHightlight
-	 *        	This string will be attached after every match
-	 * @return string @codeCoverageIgnore
+	 *            This string will be attached before every match
+	 * @param string $postHighlight
+	 *            This string will be attached after every match
+	 * @return string
+	 * @codeCoverageIgnore
 	 */
-	public function highlightFilter($text, $keyword, $preHighlight = '<em>', $postHightlight = '</em>') {
-		return Utils::highlight($text, $keyword, $preHighlight, $postHightlight);
+	public function highlightFilter($text, $keyword, $preHighlight = '<em>', $postHighlight = '</em>'): string {
+		return Utils::highlight($text, $keyword, $preHighlight, $postHighlight);
 	}
 
 	/**
+	 * Generate initials from a name
 	 *
-	 * {@inheritdoc}
-	 *
-	 * @see Twig_ExtensionInterface::getName()
+	 * @param string|null $name the name to generate the initials for
+	 * @return string|null
+	 * @see https://stackoverflow.com/a/16165234
+	 * @codeCoverageIgnore
 	 */
-	public function getName() {
-		return 'stinger_soft_string_extensions';
+	public static function initialsFilter(?string $name): ?string {
+		if($name === null) {
+			return null;
+		}
+		$expr = '/(?<=\b)[a-z]/i';
+		preg_match_all($expr, $name, $matches);
+		$letters = $matches[0];
+		if(count($letters)) {
+			$result = implode('', $matches[0]);
+			return strtoupper($result);
+		}
+		return $name;
 	}
 }

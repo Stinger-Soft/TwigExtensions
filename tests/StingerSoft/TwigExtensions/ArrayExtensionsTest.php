@@ -9,32 +9,28 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
 
 use PHPUnit\Framework\TestCase;
 
 class ArrayExtensionsTest extends TestCase {
 
-	public function testGetFunctions() {
+	public function testGetFunctions(): void {
 		$extension = new ArrayExtensions();
 		$this->assertCount(1, $extension->getFilters());
-		$this->assertContainsOnlyInstancesOf('Twig_SimpleFilter', $extension->getFilters());
+		$this->assertContainsOnlyInstancesOf('Twig\TwigFilter', $extension->getFilters());
 	}
 
-	public function testGetName() {
-		$extension = new ArrayExtensions();
-		$this->assertEquals('stinger_soft_array_extensions', $extension->getName());
-	}
-
-	public function testUnsetFilter() {
+	public function testUnsetFilter(): void {
 		$extension = new ArrayExtensions();
 		$test = range(1, 10);
 		$test = array_combine($test, $test);
 		$result = $extension->unsetFilter($test, 1);
 		$this->assertArrayNotHasKey(1, $result);
-		
+
 		$result = $extension->unsetFilter($test, 20);
 		$this->assertArrayNotHasKey(20, $result);
-		
+
 	}
 }

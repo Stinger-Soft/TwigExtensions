@@ -9,17 +9,20 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
 
 use StingerSoft\PhpCommons\Formatter\ByteFormatter;
 use StingerSoft\PhpCommons\Formatter\TimeFormatter;
 use Symfony\Component\Translation\TranslatorInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Twig extension to pretty print objects, values, etc.
  *
  */
-class PrettyPrintExtensions extends \Twig_Extension {
+class PrettyPrintExtensions extends AbstractExtension {
 
 	/**
 	 *
@@ -32,38 +35,30 @@ class PrettyPrintExtensions extends \Twig_Extension {
 	}
 
 	/**
-	 *
 	 * {@inheritdoc}
-	 *
-	 * @see Twig_Extension::getFilters()
 	 */
 	public function getFilters() {
-		return array(
-			new \Twig_SimpleFilter('humanize_filesize', array(
-				$this,
-				'humanizeFileSizeFilter' 
-			)),
-			new \Twig_SimpleFilter('humanize_timediff', array(
-				$this,
-				'humanizeTimeDiffFilter' 
-			)) 
-		);
+		return [
+			new TwigFilter('humanize_filesize', [$this, 'humanizeFileSizeFilter']),
+			new TwigFilter('humanize_timediff', [$this, 'humanizeTimeDiffFilter']),
+		];
 	}
 
 	/**
 	 * Pretty prints a given memory size
 	 *
-	 * @see ByteFormatter @codeCoverageIgnore
-	 *     
 	 * @param integer $size
-	 *        	The memory size in bytes
+	 *                          The memory size in bytes
+	 * @param int     $precision
+	 *                          The precision of the formatted value, default 2
 	 * @param boolean $si
-	 *        	Use SI prefixes?
-	 * @param string $locale
-	 *        	Locale used to format the result
+	 *                          Use SI prefixes? default false
+	 * @param string  $locale
+	 *                          Locale used to format the result, default 'en'
 	 * @return string A pretty printed memory size
+	 * @see ByteFormatter @codeCoverageIgnore
 	 */
-	public function humanizeFileSizeFilter($size, $precision = 2, $si = false, $locale = 'en') {
+	public function humanizeFileSizeFilter($size, $precision = 2, $si = false, $locale = 'en'): string {
 		return ByteFormatter::prettyPrintSize($size, $precision, $si, $locale);
 	}
 
@@ -73,68 +68,60 @@ class PrettyPrintExtensions extends \Twig_Extension {
 	 * Depending on the amount of time passed between given from and to, the difference between the two may be
 	 * expressed in seconds, hours, days, weeks, months or years.
 	 *
+	 * @param int|\DateTime      $from
+	 *            the start time, either as <code>DateTime</code> object or as integer expressing a unix timestamp,
+	 *            used for calculating the relative difference to the given <code>to</code> parameter.
+	 * @param int|\DateTime|null $to
+	 *            the end time, either as <code>DateTime</code> object, a unix timestamp or <code>null</code> used for
+	 *            calculating the difference to the given <code>from</code> parameter. In case <code>null</code> is
+	 *            provided, the current timestamp will be used (utilizing <code>time()</code>).
+	 * @return string
 	 * @see TimeFormatter
 	 *
-	 * @param int|\DateTime $from
-	 *        	the start time, either as <code>DateTime</code> object or as integer expressing a unix timestamp,
-	 *        	used for calculating the relative difference to the given <code>to</code> parameter.
-	 * @param int|\DateTime|null $to
-	 *        	the end time, either as <code>DateTime</code> object, a unix timestamp or <code>null</code> used for
-	 *        	calculating the difference to the given <code>from</code> parameter. In case <code>null</code> is
-	 *        	provided, the current timestamp will be used (utilizing <code>time()</code>).
 	 */
-	public function humanizeTimeDiffFilter($from, $to = null) {
+	public function humanizeTimeDiffFilter($from, $to = null): string {
 		$diff = TimeFormatter::getRelativeTimeDifference($from, $to);
 		$since = null;
 		switch($diff[1]) {
 			case TimeFormatter::UNIT_SECONDS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.seconds', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.seconds', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_MINUTES:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.minutes', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.minutes', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_HOURS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.hours', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.hours', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_DAYS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.days', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.days', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_WEEKS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.weeks', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.weeks', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_MONTHS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.months', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.months', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 			case TimeFormatter::UNIT_YEARS:
-				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.years', $diff[0], array(
-					'%count%' => $diff[0] 
-				), 'StingerSoftTwigExtensions');
+				$since = $this->translator->transChoice('stinger_soft.twig_extensions.pretty_print.time.years', $diff[0], [
+					'%count%' => $diff[0],
+				], 'StingerSoftTwigExtensions');
 				break;
 		}
-		return $this->translator->trans('stinger_soft.twig_extensions.pretty_print.time.diff', array(
-			'%time%' => $since 
-		), 'StingerSoftTwigExtensions');
+		return $this->translator->trans('stinger_soft.twig_extensions.pretty_print.time.diff', [
+			'%time%' => $since,
+		], 'StingerSoftTwigExtensions');
 	}
 
-	/**
-	 *
-	 * {@inheritdoc}
-	 *
-	 * @see Twig_ExtensionInterface::getName()
-	 */
-	public function getName() {
-		return 'stinger_soft_pretty_print_extensions';
-	}
 }

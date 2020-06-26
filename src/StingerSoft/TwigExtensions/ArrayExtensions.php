@@ -9,41 +9,39 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
+
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Twig filters to handle arrays
  */
-class ArrayExtensions extends \Twig_Extension {
+class ArrayExtensions extends AbstractExtension {
 
 	/**
-	 *
 	 * {@inheritdoc}
-	 *
-	 * @see Twig_Extension::getFilters()
 	 */
 	public function getFilters() {
-		return array(
-			new \Twig_SimpleFilter('unset', array(
-				$this,
-				'unsetFilter' 
-			)) 
-		);
+		return [
+			new TwigFilter('unset', [$this, 'unsetFilter']),
+		];
 	}
 
 	/**
 	 * Removes an element from the given array
 	 *
-	 * @param array $array        	
-	 * @param array|string $keys        	
+	 * @param array        $array
+	 * @param array|string $keys
 	 * @return array
 	 */
-	public function unsetFilter($array, $keys) {
+	public function unsetFilter($array, $keys): array {
 		if(is_array($array)) {
 			if(!is_array($keys)) {
-				$keys = array(
-					$keys 
-				);
+				$keys = [
+					$keys,
+				];
 			}
 			foreach($keys as $key) {
 				if(array_key_exists($key, $array)) {
@@ -54,13 +52,4 @@ class ArrayExtensions extends \Twig_Extension {
 		return $array;
 	}
 
-	/**
-	 *
-	 * {@inheritdoc}
-	 *
-	 * @see Twig_ExtensionInterface::getName()
-	 */
-	public function getName() {
-		return 'stinger_soft_array_extensions';
-	}
 }

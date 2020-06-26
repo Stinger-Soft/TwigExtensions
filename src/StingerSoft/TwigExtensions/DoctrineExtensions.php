@@ -9,38 +9,33 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
 
-class DoctrineExtensions extends \Twig_Extension {
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+
+class DoctrineExtensions extends AbstractExtension {
 
 	private $doctrineFunctions;
 
 	/**
 	 * Set the doctrine commons functions to be used by the twig extension.
 	 *
-	 * @param \StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface $doctrineFunctions        	
+	 * @param \StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface $doctrineFunctions
 	 */
-	public function setDoctrineFunctions(\StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface $doctrineFunctions = null) {
+	public function setDoctrineFunctions(\StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface $doctrineFunctions = null): void {
 		$this->doctrineFunctions = $doctrineFunctions;
 	}
 
 	/**
-	 *
-	 * {@inheritdoc}
-	 *
-	 * @see Twig_Extension::getFilters()
+	 * {@inheritDoc}
 	 */
 	public function getFilters() {
-		return array(
-			new \Twig_SimpleFilter('entityIcon', array(
-				$this,
-				'entityIconFilter' 
-			)),
-			new \Twig_SimpleFilter('unproxify', array(
-				$this,
-				'unproxifyFilter' 
-			)) 
-		);
+		return [
+			new TwigFilter('entityIcon', [$this, 'entityIconFilter']),
+			new TwigFilter('unproxify', [$this, 'unproxifyFilter']),
+		];
 	}
 
 	/**
@@ -48,13 +43,13 @@ class DoctrineExtensions extends \Twig_Extension {
 	 * certain purpose.
 	 *
 	 * @param string|object $entity
-	 *        	the entity or class of entity to get an icon for
-	 * @param string|null $purpose
-	 *        	a purpose to get the entity for (if any) or <code>null</code> (default)
+	 *            the entity or class of entity to get an icon for
+	 * @param string|null   $purpose
+	 *            a purpose to get the entity for (if any) or <code>null</code> (default)
 	 * @return string|null the icon name / class or <code>null</code>.
 	 * @see \StingerSoft\DoctrineCommons\Utils\DoctrineFunctionsInterface::getEntityIcon
 	 */
-	public function entityIconFilter($entity, $purpose = null) {
+	public function entityIconFilter($entity, $purpose = null): ?string {
 		if($this->hasDoctrineFunctions() && method_exists($this->doctrineFunctions, 'getEntityIcon')) {
 			return $this->doctrineFunctions->getEntityIcon($entity, $purpose);
 		}
@@ -64,8 +59,8 @@ class DoctrineExtensions extends \Twig_Extension {
 	/**
 	 * Transforms the given doctrine proxy object into a 'real' entity
 	 *
-	 * @param object $object        	
-	 * @return object|NULL
+	 * @param object $object
+	 * @return object|null
 	 */
 	public function unproxifyFilter($object) {
 		if($this->hasDoctrineFunctions() && method_exists($this->doctrineFunctions, 'unproxifyFilter')) {
@@ -79,22 +74,12 @@ class DoctrineExtensions extends \Twig_Extension {
 	 *
 	 * @return boolean <code>true</code> in case the doctrine functions are available, <code>false</code> otherwise.
 	 */
-	protected function hasDoctrineFunctions() {
-		if($this->doctrineFunctions != null) {
+	protected function hasDoctrineFunctions(): bool {
+		if($this->doctrineFunctions !== null) {
 			return true;
-		} else {
-			@trigger_error('Please install the stinger-soft/doctrine-commons dependency in order to use the doctrine twig extensions!', E_USER_WARNING);
-			return false;
 		}
+		@trigger_error('Please install the stinger-soft/doctrine-commons dependency in order to use the doctrine twig extensions!', E_USER_WARNING);
+		return false;
 	}
 
-	/**
-	 *
-	 * {@inheritdoc}
-	 *
-	 * @see Twig_ExtensionInterface::getName()
-	 */
-	public function getName() {
-		return 'stinger_soft_doctrine_extensions';
-	}
 }

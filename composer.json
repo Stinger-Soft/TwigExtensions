@@ -46,5 +46,8 @@
 			"dev-master" : "0.1.x-dev",
 			"dev-develop" : "1.0.x-dev"
 		}
+	},
+	"config": {
+		"disable-tls": false
 	}
 }

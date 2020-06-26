@@ -9,22 +9,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace StingerSoft\TwigExtensions;
 
 use PHPUnit\Framework\TestCase;
 
 class StringExtensionsTest extends TestCase {
 
-	public function testGetFunctions() {
+	public function testGetFunctions(): void {
 		$extension = new StringExtensions();
-		$this->assertCount(4, $extension->getFilters());
-		$this->assertContainsOnlyInstancesOf('Twig_SimpleFilter', $extension->getFilters());
+		$this->assertCount(5, $extension->getFilters());
+		$this->assertContainsOnlyInstancesOf('Twig\TwigFilter', $extension->getFilters());
 	}
-
-	public function testGetName() {
-		$extension = new StringExtensions();
-		$this->assertEquals('stinger_soft_string_extensions', $extension->getName());
-	}
-
 
 }
