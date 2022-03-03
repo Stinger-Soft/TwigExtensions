@@ -14,7 +14,7 @@ namespace StingerSoft\TwigExtensions;
 
 use StingerSoft\PhpCommons\Formatter\ByteFormatter;
 use StingerSoft\PhpCommons\Formatter\TimeFormatter;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 

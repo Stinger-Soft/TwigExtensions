@@ -13,7 +13,7 @@
 namespace StingerSoft\TwigExtensions;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PrettyPrintExtensionsTest extends TestCase {
 
