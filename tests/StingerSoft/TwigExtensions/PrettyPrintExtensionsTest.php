@@ -19,9 +19,9 @@ class PrettyPrintExtensionsTest extends TestCase {
 
 	protected function mockTranslator(): \PHPUnit\Framework\MockObject\MockObject {
 		$translator = $this->getMockBuilder(TranslatorInterface::class)->disableOriginalConstructor()->setMethods([
-			'transChoice',
+			'trans',
 		])->getMockForAbstractClass();
-		$translator->method('transChoice')->willReturnArgument(0);
+		$translator->method('trans')->willReturnArgument(0);
 		return $translator;
 	}
 

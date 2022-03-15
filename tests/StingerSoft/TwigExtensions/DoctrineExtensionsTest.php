@@ -76,7 +76,7 @@ class DoctrineExtensionsTest extends TestCase {
 	 * @return \PHPUnit\Framework\MockObject\MockObject|\Doctrine\Common\Persistence\AbstractManagerRegistry
 	 */
 	protected function mockAbstractManagerRegistry(): \PHPUnit\Framework\MockObject\MockObject {
-		return $this->getMockBuilder('Doctrine\Common\Persistence\AbstractManagerRegistry')->disableOriginalConstructor()->getMock();
+		return $this->getMockBuilder('Doctrine\Persistence\AbstractManagerRegistry')->disableOriginalConstructor()->getMock();
 	}
 
 	/**

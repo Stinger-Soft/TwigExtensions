@@ -5,3 +5,5 @@
 /build/
 /tests/temp/
 /.idea/
+.phpunit.result.cache
+.idea
